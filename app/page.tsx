@@ -9,7 +9,7 @@ import Problems from "@/components/sections/Problems";
 
 export default function Home() {
   return (
-    <section className="relative h-screen bg-black">
+    <section className="relative h-screen">
       <div className="absolute -top-[10rem] left-[50%] size-[12rem] translate-x-[-50%] rounded-full bg-gradient-to-t from-green-500 to-green-700 blur-[8em] md:-top-[35rem] md:size-[40rem] md:opacity-55"></div>
       <NavBar />
       <Hero />
