@@ -1,9 +1,8 @@
 "use client";
-// import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
-// import { ModeToggle } from "../ModeToggle";
 
 export default function NavBar() {
   return (
@@ -26,13 +25,12 @@ export default function NavBar() {
         className="flex items-center gap-2"
       >
         <Button
-          // onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
+          onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
           variant={"outline"}
           className="text-xs md:text-sm text-black dark:text-white"
         >
           Login
         </Button>
-        {/* <ModeToggle /> */}
       </motion.div>
     </nav>
   );
