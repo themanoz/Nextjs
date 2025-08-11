@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
 // import { AnimatedGradientText } from "../magicui/animated-gradient-text";
 import Image from "next/image";
 
@@ -36,7 +37,10 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <Button className=" bg-green-800 hover:bg-green-700 text-slate-200 text-sm lg:text-md font-medium">
+        <Button
+          className=" bg-green-800 hover:bg-green-700 text-slate-200 text-sm lg:text-md font-medium"
+          onClick={() => signIn("github", { callbackUrl: "/dashboard/projects" })}
+        >
           Get started
         </Button>
       </motion.div>
@@ -47,7 +51,7 @@ export default function Hero() {
         transition={{ duration: 1.2 }}
         className="border border-slate-800 rounded-lg mt-12 lg:mt-8 lg:w-3/5"
       >
-        <Image src="/insights.png" alt="dashboard" width={1600} height={800} />
+        <Image src="/dashboard.png" alt="dashboard" width={1600} height={800} />
       </motion.div>
     </section>
   );
