@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 type Product = {
   product_id: number;
@@ -27,16 +27,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       ? "/year"
       : "";
 
-//   const { data: session } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const handleCheckout = async (productId: number) => {
     const url = `https://test.checkout.dodopayments.com/buy/${productId}?quantity=1&redirect_url=http://localhost:3000/dashboard`;
-    // if (session?.accessToken) {
-    //   router.push(url);
-    // } else {
-    //   signIn("github", { callbackUrl: url });
-    // }
+    if (session?.accessToken) {
+      router.push(url);
+    } else {
+      signIn("github", { callbackUrl: url });
+    }
   };
 
   return (

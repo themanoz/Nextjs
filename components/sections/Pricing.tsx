@@ -30,22 +30,22 @@ export default function Pricing() {
   const [products, setProducts] = useState<Product[]>([]);
 
   const fetchProducts = async () => {
-    // try {
-    //   const response = await axios.get("/api/products");
-    //   const productsData: Product[] = response.data;
-    //   console.log("Products: ", productsData);
+    try {
+      const response = await axios.get("/api/products");
+      const productsData: Product[] = response.data;
+      console.log("Products: ", productsData);
 
-    //   // Sort the products so that the Monthly Plan comes before the Yearly Plan.
-    //   const sortedProducts = productsData.sort((a, b) => {
-    //     if (a.name === "Monthly Plan" && b.name === "Yearly Plan") return -1;
-    //     if (a.name === "Yearly Plan" && b.name === "Monthly Plan") return 1;
-    //     return 0;
-    //   });
+      // Sort the products so that the Monthly Plan comes before the Yearly Plan.
+      const sortedProducts = productsData.sort((a, b) => {
+        if (a.name === "Monthly Plan" && b.name === "Yearly Plan") return -1;
+        if (a.name === "Yearly Plan" && b.name === "Monthly Plan") return 1;
+        return 0;
+      });
 
-    //   setProducts(sortedProducts);
-    // } catch (error) {
-    //   console.error("Error fetching products:", error);
-    // }
+      setProducts(sortedProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   };
 
   useEffect(() => {

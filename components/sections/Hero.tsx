@@ -47,7 +47,7 @@ export default function Hero() {
         transition={{ duration: 1.2 }}
         className="border border-slate-800 rounded-lg mt-12 lg:mt-8 lg:w-3/5"
       >
-        <Image src="/dashboard.png" alt="dashboard" width={1600} height={800} />
+        <Image src="/insights.png" alt="dashboard" width={1600} height={800} />
       </motion.div>
     </section>
   );

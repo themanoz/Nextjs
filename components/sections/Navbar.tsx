@@ -3,6 +3,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
+import { ModeToggle } from "../ModeToggle";
 
 export default function NavBar() {
   return (
@@ -31,6 +32,7 @@ export default function NavBar() {
         >
           Login
         </Button>
+        <ModeToggle />
       </motion.div>
     </nav>
   );

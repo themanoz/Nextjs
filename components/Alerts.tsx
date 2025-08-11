@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-// import { AnimatedList } from "@/components/magicui/animated-list";
+import { AnimatedList } from "@/components/magicui/animated-list";
 import { Badge } from "@/components/ui/badge";
 
 interface Item {
@@ -91,11 +91,11 @@ export function Alerts({ className }: { className?: string }) {
         className
       )}
     >
-      {/* <AnimatedList>
+      <AnimatedList>
         {issues.map((item, idx) => (
           <Notification key={idx} {...item} />
         ))}
-      </AnimatedList> */}
+      </AnimatedList>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
     </div>
