@@ -11,7 +11,7 @@ export interface QueryParams {
 export interface Repo {
   id: string;
   full_name: string;
-  name: string;
+  repo: string;
   owner: string;
   labels?: string[];
   lastChecked: string;
