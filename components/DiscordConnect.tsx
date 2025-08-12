@@ -41,7 +41,7 @@ export function DiscordConnect({
 
   const connectToDiscord = () => {
     window.open(
-      // `https://discord.com/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID}&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fdiscord&scope=identify+email`,
+      // `https://discord.com/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID}&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fdiscord&scope=email+identify`
       `https://discord.com/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID}&&response_type=code&redirect_uri=https%3A%2F%2Fgittrek.com%2Fapi%2Fdiscord&scope=email+identify`
     );
   };
