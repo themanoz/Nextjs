@@ -10,6 +10,7 @@ export interface QueryParams {
 
 export interface Repo {
   id: string;
+  projectId: string;
   full_name: string;
   repo: string;
   owner: string;
