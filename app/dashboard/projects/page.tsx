@@ -112,7 +112,7 @@ export default function WatchedReposPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs text-neutral-400 tracking-wider">
-                Issues Pinged
+                ISSUES PINGED
               </p>
               <p className="text-2xl font-bold text-green-500 font-mono">
                 {repos.filter((r) => r.full_name).length}
@@ -125,7 +125,7 @@ export default function WatchedReposPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs text-neutral-400 tracking-wider">
-                Notifications Sent
+                NOTIFICATIONS SENT
               </p>
               <p className="text-2xl font-bold text-orange-500 font-mono">
                 {repos.filter((r) => r.full_name).length}
