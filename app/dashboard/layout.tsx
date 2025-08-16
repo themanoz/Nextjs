@@ -1,4 +1,4 @@
-// import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar";
 import { ReactNode } from "react";
 import Header from "../../components/Header";
 import { SidebarProvider } from "@/components/ui/sidebar";
