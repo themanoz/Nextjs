@@ -19,6 +19,43 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { toast } from "sonner";
+
+// GitHub label color mapping
+const getLabelColor = (label: string): string => {
+  const labelColors: { [key: string]: string } = {
+    bug: "bg-red-100 text-red-700 border border-red-200",
+    "good first issue": "bg-purple-100 text-purple-700 border border-purple-200",
+    enhancement: "bg-blue-100 text-blue-700 border border-blue-200",
+    documentation: "bg-green-100 text-green-700 border border-green-200",
+    help: "bg-yellow-100 text-yellow-700 border border-yellow-200",
+    question: "bg-orange-100 text-orange-700 border border-orange-200",
+    invalid: "bg-gray-100 text-gray-700 border border-gray-200",
+    wontfix: "bg-gray-100 text-gray-600 border border-gray-200",
+    duplicate: "bg-gray-100 text-gray-600 border border-gray-200",
+    "help wanted": "bg-green-100 text-green-600 border border-green-200",
+    feature: "bg-blue-100 text-blue-600 border border-blue-200",
+    "high priority": "bg-red-100 text-red-800 border border-red-200",
+    "low priority": "bg-gray-100 text-gray-700 border border-gray-200",
+    "medium priority": "bg-yellow-100 text-yellow-700 border border-yellow-200",
+    security: "bg-red-100 text-red-800 border border-red-200",
+    performance: "bg-purple-100 text-purple-800 border border-purple-200",
+    refactor: "bg-indigo-100 text-indigo-700 border border-indigo-200",
+    test: "bg-teal-100 text-teal-700 border border-teal-200",
+    chore: "bg-gray-100 text-gray-600 border border-gray-200",
+    design: "bg-pink-100 text-pink-700 border border-pink-200",
+    accessibility: "bg-green-100 text-green-800 border border-green-200",
+    mobile: "bg-blue-100 text-blue-800 border border-blue-200",
+    web: "bg-cyan-100 text-cyan-700 border border-cyan-200",
+    api: "bg-violet-100 text-violet-700 border border-violet-200",
+    database: "bg-amber-100 text-amber-700 border border-amber-200",
+    ui: "bg-rose-100 text-rose-700 border border-rose-200",
+    ux: "bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200",
+  };
+
+  const normalizedLabel = label.toLowerCase().trim();
+  return labelColors[normalizedLabel] || "bg-gray-200 text-gray-700 border border-gray-200";
+};
 
 export default function WatchedReposPage() {
   const { data: session } = useSession();
@@ -44,6 +81,23 @@ export default function WatchedReposPage() {
 
   const handleBotStatusChecked = useCallback((status: boolean) => {
     setIsBotInSharedGuild(status);
+  }, []);
+
+  const handleDeleteRepo = useCallback(async (projectId: string) => {
+    try {
+      await axios.delete(`/api/projects?projectId=${projectId}`);
+      
+      // Remove the repo from the local state
+      setRepos(prevRepos => prevRepos.filter(repo => repo.projectId !== projectId));
+      
+      // Close the modal if it's open
+      setSelectedRepo(null);
+      
+      toast.success("Repository removed from watchlist successfully");
+    } catch (error) {
+      console.error("Error removing repository:", error);
+      toast.error("Failed to remove repository from watchlist");
+    }
   }, []);
 
   const filteredRepos = repos.filter(
@@ -168,7 +222,7 @@ export default function WatchedReposPage() {
               <tbody>
                 {filteredRepos.map((repo, index) => (
                   <tr
-                    key={repo.id}
+                    key={repo.id ?? `${repo.owner}/${repo.repo}-${index}`}
                     className={`border-b border-neutral-800 hover:bg-neutral-800 transition-colors cursor-pointer ${
                       index % 2 === 0 ? "bg-neutral-900" : "bg-neutral-850"
                     }`}
@@ -181,7 +235,25 @@ export default function WatchedReposPage() {
                       {repo.owner}
                     </td>
                     <td className="py-3 px-4">
-                      <Badge>{repo.labels}</Badge>
+                      {Array.isArray(repo.labels)
+                        ? repo.labels.map((label: string, i: number) => (
+                            <Badge 
+                              key={label.trim() + i} 
+                              className={`mr-1 ${getLabelColor(label)}`}
+                            >
+                              {label.trim()}
+                            </Badge>
+                          ))
+                        : typeof repo.labels === "string" && repo.labels
+                        ? (repo.labels as string).split(",").map((label: string, i: number) => (
+                            <Badge 
+                              key={label.trim() + i} 
+                              className={`mr-1 ${getLabelColor(label)}`}
+                            >
+                              {label.trim()}
+                            </Badge>
+                          ))
+                        : null}
                     </td>
                     <td className="py-3 px-4 text-sm text-neutral-300 font-mono">
                       {new Date(repo.lastChecked).toLocaleString()}
@@ -250,14 +322,32 @@ export default function WatchedReposPage() {
                   <p className="text-xs text-neutral-400 tracking-wider mb-1">
                     LABELS
                   </p>
-                  <span className="text-sm text-white">
-                    <Badge>{selectedRepo.labels}</Badge>
-                  </span>
+                  <div className="flex flex-wrap gap-1">
+                    {Array.isArray(selectedRepo.labels)
+                      ? selectedRepo.labels.map((label: string, i: number) => (
+                          <Badge 
+                            key={label.trim() + i} 
+                            className={getLabelColor(label)}
+                          >
+                            {label.trim()}
+                          </Badge>
+                        ))
+                      : typeof selectedRepo.labels === "string" && selectedRepo.labels
+                      ? (selectedRepo.labels as string).split(",").map((label: string, i: number) => (
+                          <Badge 
+                            key={label.trim() + i} 
+                            className={getLabelColor(label)}
+                          >
+                            {label.trim()}
+                          </Badge>
+                        ))
+                      : null}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-2 pt-4">
                 <Button className="bg-green-500 hover:bg-green-600 text-white">
-                  <Link href="#">View on GitHub</Link>
+                  <Link href="#">GitHub</Link>
                 </Button>
                 <Button
                   variant="outline"
@@ -268,6 +358,7 @@ export default function WatchedReposPage() {
                 <Button
                   variant="outline"
                   className="border-neutral-700 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-300 bg-transparent"
+                  onClick={() => handleDeleteRepo(selectedRepo.projectId)}
                 >
                   Remove from Watchlist
                 </Button>
